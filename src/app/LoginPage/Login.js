@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import "./Login.css"
+import { login } from '../Components/Actions/user.actions'
 class LoginPage extends React.Component {
     constructor(props) {
         super(props);
@@ -14,28 +15,30 @@ class LoginPage extends React.Component {
             submitted: false
         };
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
-    handleChange(e) {
-        const { name, value } = e.target;
-        this.setState({ [name]: value });
+    onChange(e) {
+        this.setState({ [e.target.name]: e.target.value })
     }
 
-    handleSubmit(e) {
+    onSubmit(e) {
         e.preventDefault();
 
-        this.setState({ submitted: true });
-        const { username, password } = this.state;
-        if (username && password) {
-            this.props.login(username, password);
+        const user = {
+            email: this.state.email,
+            password: this.state.password
         }
+
+        login(user).then(res => {
+            if (res) {
+                this.props.history.push(`/home`)
+            }
+        })
     }
 
     render() {
-        const { loggingIn } = this.props;
-        const { username, password, submitted } = this.state;
         return (
                 <form className="signupBlock" onSubmit={this.onSubmit}>
                     <h2>Login</h2>
@@ -47,7 +50,7 @@ class LoginPage extends React.Component {
                         placeholder="Enter your email here"
                         name="email"
                         value={this.state.email}
-                        onChange={this.onChangeEmail}
+                        onChange={this.onChange}
                     />
                     <p className="signupComponentText">Password</p>
                     <input
@@ -55,7 +58,7 @@ class LoginPage extends React.Component {
                         placeholder="Enter your password"
                         name="password"
                         value={this.state.password}
-                        onChange={this.onChangePassword}
+                        onChange={this.onChange}
                     />
                     <br/>
                     <Link className="loginButton" type="submit" to="/home">
@@ -68,16 +71,4 @@ class LoginPage extends React.Component {
     }
 }
 
-function mapState(state) {
-    const { loggingIn } = state.authentication;
-    return { loggingIn };
-}
-
-// const actionCreators = {
-//     login: userActions.login,
-//     logout: userActions.logout
-// };
-
-//const connectedLoginPage = connect(mapState, actionCreators)(LoginPage);
-//export { connectedLoginPage as LoginPage };
 export {LoginPage}

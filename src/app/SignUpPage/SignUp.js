@@ -1,6 +1,7 @@
 import React from 'react';
 import './SignUp.css';
 import axios from "axios";
+import { register } from '../Components/Actions/user.actions'
 
 export default class SignUp extends React.Component {
     constructor(props) {
@@ -11,43 +12,25 @@ export default class SignUp extends React.Component {
             passwordConfirm: '',
             users: []
         }
-        this.onChangeEmail = this.onChangeEmail.bind(this);
-        this.onChangePassword = this.onChangePassword.bind(this);
-        this.onChangePasswordConfirm = this.onChangePasswordConfirm.bind(this);
+        this.onChange = this.onChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this);
     }
-    onChangeEmail(e) {
-        this.setState({
-            email: e.target.value
-        })
-    }
 
-    onChangePassword(e) {
-        this.setState({
-            password: e.target.value
-        })
-    }
-
-    onChangePasswordConfirm(e) {
-        this.setState({
-            passwordConfirm: e.target.value
-        })
+    onChange(e) {
+        this.setState({ [e.target.name]: e.target.value })
     }
 
     onSubmit(e) {
         e.preventDefault();
-        const User = {
+        const newUser = {
             email: this.state.email,
             password: this.state.password,
-            passwordConfirm: this.state.passwordConfirm
         }
 
-        console.log(User);
-        axios.post('http://localhost:4000/signup', User)
-            .then(res => console.log(res));
-
-        window.location = '/login';
-        console.log('LOOG', User);
+        console.log('LOOG', newUser);
+        register(newUser).then(res => {
+            this.props.history.push(`/login`)
+        })
     }
 
     render() {
@@ -65,7 +48,7 @@ export default class SignUp extends React.Component {
                             placeholder="Enter your email here"
                             name="email"
                             value={this.state.email}
-                            onChange={this.onChangeEmail}
+                            onChange={this.onChange}
                         />
                         <p className="signupComponentText">Password</p>
                         <input
@@ -73,15 +56,7 @@ export default class SignUp extends React.Component {
                             placeholder="Enter your password"
                             name="password"
                             value={this.state.password}
-                            onChange={this.onChangePassword}
-                        />
-                        <p className="signupComponentText">Confirm password</p>
-                        <input
-                            type="password"
-                            placeholder="Confirm your password"
-                            name="passwordConfirm"
-                            value={this.state.passwordConfirm}
-                            onChange={this.onChangePasswordConfirm}
+                            onChange={this.onChange}
                         />
                         <br/>
                         <button className="signupButton" type="submit">Sign Up</button>
