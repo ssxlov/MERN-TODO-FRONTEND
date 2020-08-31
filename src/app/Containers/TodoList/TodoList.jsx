@@ -25,11 +25,10 @@ const TodoList = (props) => {
     const {todos, remove, markAsChecked, clearCompleted, checkAll} = props
     const [state, setState] = useState({items: todos, filter: 'All'})
     const user = localStorage.getItem('userId')
-  
+
     useEffect(()  => {
         const todoList = todos.filter(FILTER_MAP['All'])
-        setState({items: todoList, filter: 'All'})
-        console.log('LOOG fsdfsdfsdfs');
+        setState({items: todoList, filter: 'All', email: decoded.email})
     },[todos])
 
     useEffect(() => {
@@ -41,9 +40,6 @@ const TodoList = (props) => {
         setState({items: todoList, filter: name})
     };
 
-    const checkAllTodos = () => {
-        console.log(todos)
-    }
     return (
         <React.Fragment>
             <header className="todoHeader">
