@@ -6,9 +6,6 @@ class LoginPage extends React.Component {
     constructor(props) {
         super(props);
 
-        // // reset login status
-        // this.props.logout();
-
         this.state = {
             username: '',
             password: '',
@@ -30,7 +27,6 @@ class LoginPage extends React.Component {
             email: this.state.email,
             password: this.state.password
         }
-
         login(user).then(res => {
             if (res) {
                 this.props.history.push(`/home`)
@@ -61,9 +57,9 @@ class LoginPage extends React.Component {
                         onChange={this.onChange}
                     />
                     <br/>
-                    <Link className="loginButton" type="submit" to="/home">
+                    <button className="loginButton" type="submit" to="/home">
                         Login
-                    </Link>
+                    </button>
                     <br/>
                     <Link to="/register" className="reg">Register</Link>
                 </form>

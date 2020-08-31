@@ -4,16 +4,18 @@ import TodoItem from '../../Components/TodoItem/TodoItem';
 import {actions, initialState, todoSlice} from './todoSlice';
 import PropTypes from 'prop-types'
 import { createSelector } from '@reduxjs/toolkit'
-import APIHelper from "../../../APIHelper";
 import ToDoInput from "../../Components/TodoInput/ToDoInput";
 import { Link } from 'react-router-dom';
 import './TodoList.scss'
-import RadioBadge from "../../Components/RadioBadge/RaidoBadge";
-
+import jwt_decode from 'jwt-decode'
 import { controlBadges } from '../../Constants/todo';
-import {text} from "@fortawesome/fontawesome-svg-core";
+import axios from "axios";
 
 const TodoList = (props) => {
+
+    const token = localStorage.usertoken
+    const decoded = jwt_decode(token)
+
     const FILTER_MAP = {
         All: () => true,
         ToDo: todo => !todo.completed,
@@ -22,7 +24,8 @@ const TodoList = (props) => {
 
     const {todos, remove, markAsChecked, clearCompleted, checkAll} = props
     const [state, setState] = useState({items: todos, filter: 'All'})
-
+    const user = localStorage.getItem('userId')
+  
     useEffect(()  => {
         const todoList = todos.filter(FILTER_MAP['All'])
         setState({items: todoList, filter: 'All'})
@@ -32,16 +35,6 @@ const TodoList = (props) => {
     useEffect(() => {
         localStorage.setItem('todos', JSON.stringify(todos))
     }, [todos])
-
-    useEffect(() => {
-        const fetchTodoAndSetTodos = async () => {
-            const todos = await APIHelper.getAllTodos()
-            //setState({todos})
-            console.log(await APIHelper.getAllTodos())
-            console.log(todos)
-        };
-        fetchTodoAndSetTodos();
-    }, [])
 
     const btnClick = name => () => {
         const todoList = todos.filter(FILTER_MAP[name])
@@ -60,7 +53,7 @@ const TodoList = (props) => {
             </header>
             <div className="todoDescription">
                 <p>
-                    Hello "User", its your TodoList
+                    Hello {decoded.email}, its your TodoList
                     <br/>
                 </p>
 

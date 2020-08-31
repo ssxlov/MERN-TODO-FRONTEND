@@ -2,19 +2,26 @@ import React from 'react';
 import {actions, initialState, todoSlice} from "../../Containers/TodoList/todoSlice";
 import {useState, useEffect} from 'react';
 import { connect } from 'react-redux'
+import axios from "axios";
+import {getUser} from "../Actions/user.actions";
 
 const mapDispatch = { addTodo: actions.addTodo }
 
 const ToDoInput = ( props ) => {
     const [value, setValue] = useState("");
-    // const newTodos = [...todos, { text: value, id: new Date().getTime(), isCompleted: false }];
     const handleSubmit = e => {
         e.preventDefault();
         if (!value) {
             return ;
         }
+
+        const user = localStorage.getItem('userId')
         props.addTodo(value)
         setValue("");
+        return axios
+            .post('http://localhost:4000/users/' + user +'/todos', {
+                title: value
+            })
     };
 
     return (
