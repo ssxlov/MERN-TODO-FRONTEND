@@ -22,14 +22,23 @@ const TodoList = (props) => {
         Completed: todo => todo.completed
     };
 
-    const {todos, remove, markAsChecked, clearCompleted, checkAll} = props
-    const [state, setState] = useState({items: todos, filter: 'All'})
     const user = localStorage.getItem('userId')
 
-    useEffect(()  => {
+    // const dbtodos = axios.get('http://localhost:4000/users/' + user + '/todos').then(res => {
+    //     this.setState({
+    //             data: res.data
+    //         }
+    //     )
+    // })
+
+
+    const {todos, remove, markAsChecked, clearCompleted, checkAll} = props
+    const [state, setState] = useState({items: todos, filter: 'All'})
+
+    useEffect(() => {
         const todoList = todos.filter(FILTER_MAP['All'])
         setState({items: todoList, filter: 'All', email: decoded.email})
-    },[todos])
+    }, [todos])
 
     useEffect(() => {
         localStorage.setItem('todos', JSON.stringify(todos))
