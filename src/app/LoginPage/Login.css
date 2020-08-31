@@ -7,11 +7,10 @@
     cursor: pointer;
 }
 .loginButton {
-    display: block;
     margin: 0 auto;
     margin-top: 10px;
     width: 98px;
-    height: 18px;
+    height: 40px;
     background: blue;
     color: white;
     font-family: Helvetica;
@@ -20,5 +19,5 @@
     outline: none;
     text-decoration: none;
     -webkit-text-stroke: medium;
-    padding: 11px;
+    padding: 12px;
 }
