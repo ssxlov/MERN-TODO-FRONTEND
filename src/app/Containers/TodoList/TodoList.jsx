@@ -23,21 +23,23 @@ const TodoList = (props) => {
     };
 
     const user = localStorage.getItem('userId')
-
-    // const dbtodos = axios.get('http://localhost:4000/users/' + user + '/todos').then(res => {
-    //     this.setState({
-    //             data: res.data
-    //         }
-    //     )
-    // })
-
-
     const {todos, remove, markAsChecked, clearCompleted, checkAll} = props
-    const [state, setState] = useState({items: todos, filter: 'All'})
+    const [state, setState] = useState({items: [], filter: 'All'})
+
 
     useEffect(() => {
         const todoList = todos.filter(FILTER_MAP['All'])
-        setState({items: todoList, filter: 'All', email: decoded.email})
+        //setState({items: todoList, filter: 'All', email: decoded.email})
+
+         axios.get('http://localhost:4000/users/' + user + '/todos').then(res => {
+            setState({
+                    items: res.data,
+                    filter: 'All',
+                     email: decoded.email
+                }
+            )
+        })
+        console.log(state.items)
     }, [todos])
 
     useEffect(() => {
@@ -69,10 +71,10 @@ const TodoList = (props) => {
                 <div className="list">
                     {state.items.map((todo, index) => (
                         <TodoItem
-                        id={todo.id}
+                        id={todo._id}
                         index={index}
-                        key={todo.id}
-                        text={todo.text}
+                        key={todo}
+                        text={todo.title}
                         onRemove={() => {
                         remove({id: todo.id, text: todo.text})
                     }}
@@ -89,7 +91,7 @@ const TodoList = (props) => {
                             className="taskCount"
                             onClick={checkAll}
                         >
-                            {todos.length} tasks left
+                            {state.items.length} tasks left
                         </li>
                         <li>
                             {controlBadges.map((name) => (

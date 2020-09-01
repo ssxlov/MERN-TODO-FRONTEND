@@ -27,7 +27,7 @@ const TodoItem = ({todo, text, id, completed, markAsChecked, onRemove}) => {
             >
                 <input type="checkbox" onClick={markAsChecked}/>
                 <div className="taskText">
-                    {todo.text}
+                    {todo.title}
                     <div className="deleteTask" onClick={onRemove}>
                         <img src='https://img.icons8.com/android/12/000000/trash.png' alt="error"/>
                     </div>

@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import axios from "axios";
 
 export const initialState = {
   tasks: [],  // task should have a format {id: unique_value, text: taks_text, checked: flag_show_if_task_completed (false by default) }
 };
 let nextTodoId = 0
+const user = localStorage.getItem('userId')
 
 export const todoSlice = createSlice({
   name: 'todo',

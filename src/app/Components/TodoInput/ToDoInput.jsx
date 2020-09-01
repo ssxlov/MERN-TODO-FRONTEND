@@ -17,11 +17,12 @@ const ToDoInput = ( props ) => {
 
         const user = localStorage.getItem('userId')
         props.addTodo(value)
-        setValue("");
-        return axios
-            .post('http://localhost:4000/users/' + user +'/todos', {
+        setTimeout(() => { return axios
+            .post('http://localhost:4000/users/' + user + '/todos', {
                 title: value
-            })
+            })}, 1000);
+        setValue("");
+
     };
 
     return (
