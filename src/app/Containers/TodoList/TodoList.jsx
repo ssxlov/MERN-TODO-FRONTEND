@@ -108,7 +108,8 @@ const TodoList = ({ todos, toggleTodo }) => {
                                     className="filterButton"
                                 >
                                     {name}
-                                </button>))}
+                                </button>
+                            ))}
                         </li>
                         <li
                             className="clearTasksButton"

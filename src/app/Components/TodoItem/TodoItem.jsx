@@ -20,13 +20,14 @@ const TodoItem = ({todo, text, id, completed, markAsChecked, onRemove}) => (
         <React.Fragment>
             <li className="todo"
                 key={id}
-                style={{textDecoration: todo.completed? 'line-through' : 'none'}}
+                //completed={todo.completed}
+                style={{textDecoration: completed? 'line-through' : 'none'}}
                 // checked={checked}
                 // onCheck={onCheck}
             >
                 <input type="checkbox" onClick={markAsChecked}/>
                 <div className="taskText">
-                    {todo.title}
+                    {text}
                     <div className="deleteTask" onClick={onRemove}>
                         <img src='https://img.icons8.com/android/12/000000/trash.png' alt="error"/>
                     </div>
