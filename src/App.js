@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import SignUpPage  from './app/SignUpPage/SignUp';
 import {LoginPage} from "./app/LoginPage/Login";
 import TodoList from "./app/Containers/TodoList/TodoList";
-
+import VisibleTodoList from "./app/Containers/TodoList/VisibleTodoList";
 class App extends React.Component {
     render() {
         const { history } = this.props

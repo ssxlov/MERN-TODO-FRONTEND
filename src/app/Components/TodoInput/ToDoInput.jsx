@@ -3,11 +3,11 @@ import {actions, initialState, todoSlice} from "../../Containers/TodoList/todoSl
 import {useState, useEffect} from 'react';
 import { connect } from 'react-redux'
 import axios from "axios";
-import {getUser} from "../Actions/user.actions";
+import {addTodo} from "../Actions/user.actions";
 
-const mapDispatch = { addTodo: actions.addTodo }
+//const mapDispatch = { addTodo: actions.addTodo }
 
-const ToDoInput = ( props ) => {
+const ToDoInput = ({dispatch}) => {
     const [value, setValue] = useState("");
     const handleSubmit = e => {
         e.preventDefault();
@@ -16,11 +16,12 @@ const ToDoInput = ( props ) => {
         }
 
         const user = localStorage.getItem('userId')
-        props.addTodo(value)
-        setTimeout(() => { return axios
-            .post('http://localhost:4000/users/' + user + '/todos', {
-                title: value
-            })}, 1000);
+        //props.addTodo(value)
+        dispatch(addTodo(value))
+        // return axios
+        //     .post('http://localhost:4000/users/' + user + '/todos', {
+        //         title: value
+        //     })}, 1000);
         setValue("");
 
     };
@@ -38,7 +39,4 @@ const ToDoInput = ( props ) => {
     );
 };
 
-export default connect(
-    null,
-    mapDispatch
-)(ToDoInput)
+export default connect()(ToDoInput)

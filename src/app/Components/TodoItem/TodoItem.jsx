@@ -16,12 +16,11 @@ import './TodoItem.scss';
  * NOTE: need to pass task id into callbacks as param
  */
 
-const TodoItem = ({todo, text, id, completed, markAsChecked, onRemove}) => {
-    return (
+const TodoItem = ({todo, text, id, completed, markAsChecked, onRemove}) => (
         <React.Fragment>
             <li className="todo"
                 key={id}
-                style={{textDecoration: todo.completed ? 'line-through' : 'none'}}
+                style={{textDecoration: todo.completed? 'line-through' : 'none'}}
                 // checked={checked}
                 // onCheck={onCheck}
             >
@@ -35,11 +34,12 @@ const TodoItem = ({todo, text, id, completed, markAsChecked, onRemove}) => {
             </li>
             <hr/>
         </React.Fragment>
-    )
-};
+    );
 
 TodoItem.propTypes = {
     text: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
+    completed: PropTypes.bool.isRequired,
     id: PropTypes.number.isRequired,
     markAsChecked: PropTypes.bool.isRequired,
     onRemove: PropTypes.func.isRequired,
