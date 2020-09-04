@@ -3,7 +3,7 @@ import {actions, initialState, todoSlice} from "../../Containers/TodoList/todoSl
 import {useState, useEffect} from 'react';
 import { connect } from 'react-redux'
 import axios from "axios";
-import {addTodo} from "../Actions/user.actions";
+import {addTodo} from "../../Containers/TodoList/actions/index";
 
 //const mapDispatch = { addTodo: actions.addTodo }
 
@@ -15,13 +15,14 @@ const ToDoInput = ({dispatch}) => {
             return ;
         }
 
-        const user = localStorage.getItem('userId')
-        //props.addTodo(value)
-        dispatch(addTodo(value))
-        // return axios
-        //     .post('http://localhost:4000/users/' + user + '/todos', {
-        //         title: value
-        //     })}, 1000);
+        const mapDispatchToProps = dispatch => {
+            return {
+                onAddTodo: todo => {
+                    dispatch(addTodo({value}));
+                }
+            };
+        };
+        dispatch(addTodo({value}))
         setValue("");
 
     };

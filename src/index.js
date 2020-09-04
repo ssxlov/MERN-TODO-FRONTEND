@@ -13,8 +13,9 @@ import thunk from "redux-thunk";
 import rootReducer from './app/Containers/TodoList/reducers'
 import VisibleTodoList from "./app/Containers/TodoList/VisibleTodoList";
 
-const store = createStore(rootReducer)
+const store = createStore(rootReducer, applyMiddleware(thunk));
 const history = createBrowserHistory()
+
 //todo setup Provider here for use store from the './app/store'
 ReactDOM.render(
       <React.StrictMode>

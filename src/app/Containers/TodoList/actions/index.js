@@ -1,14 +1,50 @@
-let nextTodoId = 0
-export const addTodo = text => ({
-    type: 'ADD_TODO',
-    id: nextTodoId++,
-    text
-})
+import axios from 'axios'
+import {
+    ADD_TODO_SUCCESS,
+    ADD_TODO_FAILURE,
+    ADD_TODO_STARTED,
+    DELETE_TODO
+} from '../actions/types';
 
-export const setVisibilityFilter = filter => ({
-    type: 'SET_VISIBILITY_FILTER',
-    filter
-})
+const user = localStorage.getItem('userId')
+
+export const addTodo = ({ value }) => {
+    return dispatch => {
+        dispatch(addTodoStarted());
+
+        axios
+            .post('http://localhost:4000/users/' + user + '/todos', {
+                title: value
+            })
+            .then(res => {
+                localStorage.setItem('todos', res.data)
+                dispatch(addTodoSuccess(res.data));
+                console.log(res.data)
+            })
+            .catch(err => {
+                dispatch(addTodoFailure(err.message));
+            });
+
+    };
+};
+
+const addTodoSuccess = todo => ({
+    type: ADD_TODO_SUCCESS,
+    payload: {
+        ...todo
+    }
+});
+
+const addTodoStarted = () => ({
+    type: ADD_TODO_STARTED
+});
+
+const addTodoFailure = error => ({
+    type: ADD_TODO_FAILURE,
+    payload: {
+        error
+    }
+});
 
 export const toggleTodo = id => ({
     type: 'TOGGLE_TODO',
