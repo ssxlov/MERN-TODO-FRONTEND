@@ -13,33 +13,14 @@ import {toggleTodo} from './actions/index'
 import {VisibilityFilters} from './actions/index'
 
 const TodoList = (props) => {
+    const {todos} = props
+    const [state, setState] = useState({todos: []})
 
-    const FILTER_MAP = {
-        All: () => true,
-        ToDo: todo => !todo.completed,
-        Completed: todo => todo.completed
-    };
-
-    const {todos, remove, markAsChecked, clearCompleted, checkAll} = props
-    const [state, setState] = useState({items: [], filter: 'All'})
-
-    useEffect(() => {
-        console.log('todos', todos)
-        const todoList = todos.filter(FILTER_MAP['All'])
-        setState({items: todoList, filter: 'All'})
-
-        console.log('[todos]',[todos])
-        console.log('todoList', todoList)
-    }, [todos])
-
-    useEffect(() => {
-        localStorage.setItem('todos', JSON.stringify(todos))
-    }, [todos])
-
-    const btnClick = name => () => {
-        const todoList = todos.filter(FILTER_MAP[name])
-        //setState({items: todoList, filter: name})
-    };
+    console.log(state.todos)
+    state.todos.push({
+        id: 1,
+        title: 'hello'
+    })
 
     return (
         <React.Fragment>
@@ -110,11 +91,10 @@ TodoList.propTypes = {
     todos: PropTypes.array.isRequired,
 }
 
-const mapStateToProps = state => ({todos: state.todo})
+const mapStateToProps = state => ({todos: state.todos.todoList})
 const mapDispatchToProps = {
 
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList)
 

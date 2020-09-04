@@ -7,7 +7,7 @@ import {
 
 const initialState = {
     loading: false,
-    todos: [],
+    todoList: [],
     error: null
 };
 
@@ -19,12 +19,12 @@ export default function todosReducer(state = initialState, action) {
                 loading: true
             };
         case ADD_TODO_SUCCESS:
-            console.log('TODOS BACK FROM SERVER ---', state.todos)
+            console.log('TODOS BACK FROM SERVER ---', state.todoList)
             return {
                 ...state,
                 loading: false,
                 error: null,
-                todos: [...state.todos, action.payload]
+                todoList: [...state.todoList, action.payload]
             };
         case ADD_TODO_FAILURE:
             return {

@@ -15,13 +15,6 @@ const ToDoInput = ({dispatch}) => {
             return ;
         }
 
-        const mapDispatchToProps = dispatch => {
-            return {
-                onAddTodo: todo => {
-                    dispatch(addTodo({value}));
-                }
-            };
-        };
         dispatch(addTodo({value}))
         setValue("");
 

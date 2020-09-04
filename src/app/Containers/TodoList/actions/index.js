@@ -8,6 +8,7 @@ import {
 
 const user = localStorage.getItem('userId')
 
+//middleware
 export const addTodo = ({ value }) => {
     return dispatch => {
         dispatch(addTodoStarted());
@@ -17,7 +18,6 @@ export const addTodo = ({ value }) => {
                 title: value
             })
             .then(res => {
-                localStorage.setItem('todos', res.data)
                 dispatch(addTodoSuccess(res.data));
                 console.log(res.data)
             })
