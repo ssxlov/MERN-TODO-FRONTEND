@@ -9,6 +9,7 @@ class LoginPage extends React.Component {
         this.state = {
             username: '',
             password: '',
+            todos: '',
             submitted: false
         };
 
@@ -25,7 +26,8 @@ class LoginPage extends React.Component {
 
         const user = {
             email: this.state.email,
-            password: this.state.password
+            password: this.state.password,
+            todos: this.state.todos
         }
         login(user).then(res => {
             if (res) {

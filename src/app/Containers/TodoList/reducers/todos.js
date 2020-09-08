@@ -2,36 +2,47 @@ import {
     ADD_TODO_SUCCESS,
     ADD_TODO_FAILURE,
     ADD_TODO_STARTED,
-    DELETE_TODO
+    DELETE_TODO,
+    TOGGLE_TODO,
+    GET_TODOS
 } from '../actions/types';
 
 const initialState = {
-    loading: false,
     todoList: [],
-    error: null
 };
 
 export default function todosReducer(state = initialState, action) {
     switch (action.type) {
+        case GET_TODOS:
+            return {
+                todoList: state.todoList
+            }
         case ADD_TODO_STARTED:
             return {
                 ...state,
-                loading: true
             };
         case ADD_TODO_SUCCESS:
-            console.log('TODOS BACK FROM SERVER ---', state.todoList)
             return {
-                ...state,
-                loading: false,
-                error: null,
-                todoList: [...state.todoList, action.payload]
+                todoList: state.todoList.concat([action.payload])
             };
+
         case ADD_TODO_FAILURE:
             return {
                 ...state,
-                loading: false,
-                error: action.payload.error
             };
+
+        case DELETE_TODO:
+            return {
+                todoList: state.todoList.filter((todo) => !(todo._id === action.payload.id))
+            };
+
+        case TOGGLE_TODO:
+            return {
+                todoList: state.todoList.map((todo) => {
+                  if(todo._id === action.payload.id) todo.completed = !todo.completed;
+                  return todo
+                }),
+            }
         default:
             return state;
     }

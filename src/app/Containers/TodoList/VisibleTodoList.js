@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { toggleTodo } from './actions/index'
+import { toggleTodo } from './middleware/middleware'
 import TodoList from './TodoList'
 import { VisibilityFilters } from '../TodoList/actions/index'
 

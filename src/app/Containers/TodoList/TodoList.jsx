@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import TodoItem from '../../Components/TodoItem/TodoItem';
-import {actions, initialState, todoSlice} from './todoSlice';
+import {actions} from './todoSlice';
 import PropTypes from 'prop-types'
 import {createSelector} from '@reduxjs/toolkit'
 import ToDoInput from "../../Components/TodoInput/ToDoInput";
@@ -9,19 +9,38 @@ import {Link} from 'react-router-dom';
 import './TodoList.scss'
 import jwt_decode from 'jwt-decode'
 import {controlBadges} from '../../Constants/todo';
-import {toggleTodo} from './actions/index'
+import {getTodos} from './actions/index'
 import {VisibilityFilters} from './actions/index'
 
 const TodoList = (props) => {
+    const FILTER_MAP = {
+        All: () => true,
+        ToDo: todo => !todo.completed,
+        Completed: todo => todo.completed
+    };
+
     const {todos} = props
-    const [state, setState] = useState({todos: []})
+    const [state, setState] = useState({todos: [], filter: 'All'})
 
-    console.log(state.todos)
-    state.todos.push({
-        id: 1,
-        title: 'hello'
-    })
+    useEffect(()  => {
+        const todoList = todos.filter(FILTER_MAP['All'])
+        setState({todos: todoList, filter: 'All'})
+    },[todos])
 
+    const btnClick = name => () => {
+        const todoList = todos.filter(FILTER_MAP[name])
+        setState({todos: todoList, filter: name})
+    };
+
+    const checkAll = () => {
+        const todoList = todos.map(todo => todo? {...todo, completed: !todo.completed} : todo)
+        setState({todos: todoList})
+    }
+
+    const clearCompleted = () => {
+        const todoList = todos.filter(todo => !todo.completed === true)
+        setState({todos: todoList})
+    }
     return (
         <React.Fragment>
             <header className="todoHeader">
@@ -40,10 +59,11 @@ const TodoList = (props) => {
                 <ToDoInput/>
                 <hr/>
                 <div className="list">
-                    {todos.map((todo, index) => (
+                    {state.todos.map((todo, index) => (
                         <TodoItem
+                            completed={todo.completed}
                             index={index}
-                            id={todo.id}
+                            id={todo._id}
                             text={todo.title}
                         />
                         ))}
@@ -52,15 +72,15 @@ const TodoList = (props) => {
                     <ul className="footer">
                         <li
                             className="taskCount"
-                            //onClick={checkAll}
+                            onClick={checkAll}
                         >
-                            {/*{[state.items.todos].length} tasks left*/}
+                            {props.todos.length} tasks left
                         </li>
                         <li>
                             {controlBadges.map((name) => (
                                 <button
                                     key={name}
-                                    //onClick={btnClick(name)}
+                                    onClick={btnClick(name)}
                                     name={name}
                                     className="filterButton"
                                 >
@@ -70,7 +90,7 @@ const TodoList = (props) => {
                         </li>
                         <li
                             className="clearTasksButton"
-                            //onClick={clearCompleted}
+                            onClick={clearCompleted}
                         >
                             Clear completed
                         </li>
@@ -93,7 +113,6 @@ TodoList.propTypes = {
 
 const mapStateToProps = state => ({todos: state.todos.todoList})
 const mapDispatchToProps = {
-
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList)

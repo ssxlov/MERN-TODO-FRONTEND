@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './TodoItem.scss';
+import { connect } from 'react-redux'
+import {deleteTodo, toggleTodo} from '../../Containers/TodoList/middleware/middleware'
 
 /**
  * todo implement here component which will show todo item
@@ -16,19 +18,19 @@ import './TodoItem.scss';
  * NOTE: need to pass task id into callbacks as param
  */
 
-const TodoItem = ({todo, text, id, completed, markAsChecked, onRemove}) => (
+const TodoItem = ({todo, text, id, completed, markAsChecked, deleteTodo, toggleTodo}) => (
         <React.Fragment>
             <li className="todo"
-                key={id}
                 //completed={todo.completed}
+                key={id}
                 style={{textDecoration: completed? 'line-through' : 'none'}}
                 // checked={checked}
                 // onCheck={onCheck}
             >
-                <input type="checkbox" onClick={markAsChecked}/>
+                <input type="checkbox" onClick={() => toggleTodo({id})}/>
                 <div className="taskText">
                     {text}
-                    <div className="deleteTask" onClick={onRemove}>
+                    <div className="deleteTask" onClick={() => deleteTodo({id})}>
                         <img src='https://img.icons8.com/android/12/000000/trash.png' alt="error"/>
                     </div>
                 </div>
@@ -46,4 +48,6 @@ TodoItem.propTypes = {
     onRemove: PropTypes.func.isRequired,
 }
 
-export default TodoItem
+
+const mapDispatch = {deleteTodo, toggleTodo}
+export default connect(null, mapDispatch)(TodoItem)

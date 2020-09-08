@@ -3,52 +3,49 @@ import {
     ADD_TODO_SUCCESS,
     ADD_TODO_FAILURE,
     ADD_TODO_STARTED,
-    DELETE_TODO
+    DELETE_TODO,
+    TOGGLE_TODO,
+    GET_TODOS
 } from '../actions/types';
 
-const user = localStorage.getItem('userId')
+export const user = localStorage.getItem('userId')
 
-//middleware
-export const addTodo = ({ value }) => {
-    return dispatch => {
-        dispatch(addTodoStarted());
-
-        axios
-            .post('http://localhost:4000/users/' + user + '/todos', {
-                title: value
-            })
-            .then(res => {
-                dispatch(addTodoSuccess(res.data));
-                console.log(res.data)
-            })
-            .catch(err => {
-                dispatch(addTodoFailure(err.message));
-            });
-
-    };
-};
-
-const addTodoSuccess = todo => ({
+export const getTodos = todo => ({
+    type: GET_TODOS,
+    payload: {
+        ...todo
+    }
+})
+export const addTodoSuccess = todo => ({
     type: ADD_TODO_SUCCESS,
     payload: {
         ...todo
     }
 });
 
-const addTodoStarted = () => ({
+export const addTodoStarted = () => ({
     type: ADD_TODO_STARTED
 });
 
-const addTodoFailure = error => ({
+export const addTodoFailure = error => ({
     type: ADD_TODO_FAILURE,
     payload: {
         error
     }
 });
 
-export const toggleTodo = id => ({
-    type: 'TOGGLE_TODO',
-    id
+export const deleteTodoSuccess = todo => ({
+    type: DELETE_TODO,
+    payload: {
+        ...todo
+    }
+})
+
+export const toggleTodoSuccess = todo => ({
+    type: TOGGLE_TODO,
+    payload: {
+        ...todo
+    }
 })
 
 export const VisibilityFilters = {

@@ -3,7 +3,7 @@ import {actions, initialState, todoSlice} from "../../Containers/TodoList/todoSl
 import {useState, useEffect} from 'react';
 import { connect } from 'react-redux'
 import axios from "axios";
-import {addTodo} from "../../Containers/TodoList/actions/index";
+import {addTodo} from "../../Containers/TodoList/middleware/middleware";
 
 //const mapDispatch = { addTodo: actions.addTodo }
 
