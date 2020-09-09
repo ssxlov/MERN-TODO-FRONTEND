@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {getTodos} from '../../Containers/TodoList/actions/index'
+import {getTodos, getTodosStarted} from '../../Containers/TodoList/actions/index'
 export const register = newUser => {
     return axios
         .post('http://localhost:4000/users/register', {
@@ -11,24 +11,23 @@ export const register = newUser => {
         })
 }
 
-export const login = ({user}) => {
+export const login = user => {
     return dispatch => {
         axios
             .post('http://localhost:4000/users/login', {
                 email: user.email,
                 password: user.password,
-                todos: user.todos
             })
             .then(response => {
                 localStorage.setItem('usertoken', response.data.token)
                 localStorage.setItem('userId', response.data.userId)
-                dispatch(getTodos(response.data.todos))
-                console.log(response.data.todos)
-                return response.data
+                console.log('LOOG dkahfkakfhfig', response.data.todos);
+                dispatch(getTodos(response.data.todos));
+                console.log('eeeeerrrrrrrrrrrrrrrr')
+
             })
             .catch(err => {
                 console.log(err)
             })
     }
-
 }

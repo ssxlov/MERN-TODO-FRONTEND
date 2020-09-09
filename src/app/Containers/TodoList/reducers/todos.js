@@ -4,7 +4,8 @@ import {
     ADD_TODO_STARTED,
     DELETE_TODO,
     TOGGLE_TODO,
-    GET_TODOS
+    GET_TODOS,
+    GET_TODOS_STARTED
 } from '../actions/types';
 
 const initialState = {
@@ -12,10 +13,16 @@ const initialState = {
 };
 
 export default function todosReducer(state = initialState, action) {
+    console.log('action', action)
     switch (action.type) {
         case GET_TODOS:
+            console.log('aaaaaaa', action)
             return {
-                todoList: state.todoList
+                todoList: [action.payload],
+            }
+        case GET_TODOS_STARTED:
+            return {
+                ...state
             }
         case ADD_TODO_STARTED:
             return {

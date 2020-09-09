@@ -2,14 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import "./Login.css"
 import { login } from '../Components/Actions/user.actions'
+
 class LoginPage extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             username: '',
             password: '',
-            todos: '',
             submitted: false
         };
 
@@ -23,18 +22,16 @@ class LoginPage extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-
         const user = {
             email: this.state.email,
             password: this.state.password,
-            todos: this.state.todos
         }
         login(user).then(res => {
             if (res) {
                 this.props.history.push(`/home`)
             }
         })
-    }
+}
 
     render() {
         return (

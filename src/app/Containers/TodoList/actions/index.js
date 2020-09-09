@@ -5,7 +5,8 @@ import {
     ADD_TODO_STARTED,
     DELETE_TODO,
     TOGGLE_TODO,
-    GET_TODOS
+    GET_TODOS,
+    GET_TODOS_STARTED
 } from '../actions/types';
 
 export const user = localStorage.getItem('userId')
@@ -16,6 +17,11 @@ export const getTodos = todo => ({
         ...todo
     }
 })
+
+export const getTodosStarted = () => ({
+    type: GET_TODOS_STARTED,
+});
+
 export const addTodoSuccess = todo => ({
     type: ADD_TODO_SUCCESS,
     payload: {

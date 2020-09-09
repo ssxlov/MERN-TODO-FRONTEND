@@ -1,16 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import TodoItem from '../../Components/TodoItem/TodoItem';
-import {actions} from './todoSlice';
 import PropTypes from 'prop-types'
 import {createSelector} from '@reduxjs/toolkit'
 import ToDoInput from "../../Components/TodoInput/ToDoInput";
 import {Link} from 'react-router-dom';
 import './TodoList.scss'
-import jwt_decode from 'jwt-decode'
 import {controlBadges} from '../../Constants/todo';
-import {getTodos} from './actions/index'
-import {VisibilityFilters} from './actions/index'
+import todosReducer, {initialState} from "./reducers/todos";
+import {getTodos} from "./actions";
 
 const TodoList = (props) => {
     const FILTER_MAP = {
@@ -18,9 +16,9 @@ const TodoList = (props) => {
         ToDo: todo => !todo.completed,
         Completed: todo => todo.completed
     };
-
+    console.log('LOOG', props.todos.todoList);
     const {todos} = props
-    const [state, setState] = useState({todos: [], filter: 'All'})
+    const [state, setState] = useState({todos: todos, filter: 'All'})
 
     useEffect(()  => {
         const todoList = todos.filter(FILTER_MAP['All'])
@@ -41,6 +39,7 @@ const TodoList = (props) => {
         const todoList = todos.filter(todo => !todo.completed === true)
         setState({todos: todoList})
     }
+    console.log('sdfsadfasd', props)
     return (
         <React.Fragment>
             <header className="todoHeader">

@@ -1,5 +1,4 @@
 import React from 'react';
-import {actions, initialState, todoSlice} from "../../Containers/TodoList/todoSlice";
 import {useState, useEffect} from 'react';
 import { connect } from 'react-redux'
 import axios from "axios";
